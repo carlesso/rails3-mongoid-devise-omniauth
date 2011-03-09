@@ -7,7 +7,9 @@ Mongoid installation: http://mongoid.org/docs/installation/
 Devise: https://github.com/fortuity/rails3-mongoid-devise/wiki/Tutorial-(Walkthrough)
 OmniAuth: http://railscasts.com/episodes/235-omniauth-part-1
 
-h2. "Building It" Tutorial (Thanks by Daniel Kehoe aka "fortuity":https://github.com/fortuity)
+h2. "Building It" Tutorial 
+
+Thanks to Daniel Kehoe aka "fortuity":https://github.com/fortuity)
 
 A complete walkthrough tutorial is available on the GitHub wiki:
 
@@ -76,45 +78,42 @@ The last modifications are oriented to generate random passwords.
 
 *app/controllers/authentications_controller*
 <pre><code class="ruby">def index    
-    @authentications = current_user.authentications if current_user
-  end
- 
-  def create
-    omniauth = request.env["omniauth.auth"] 
-    authentication = Authentication.where(:provider => omniauth['provider'], :uid => omniauth['uid']).first
-    if authentication 
-      flash[:notice] = t(:signed_in)
-      sign_in_and_redirect(:user, authentication.user)
-    elsif current_user
-      current_user.authentications.create!(:provider => omniauth['provider'], :uid => omniauth['uid'])
-      flash[:notice] = t(:success)
-      redirect_to authentications_url
-    elsif user = create_new_omniauth_user(omniauth)
-      user.authentications.create!(:provider => omniauth['provider'], :uid => omniauth['uid'])
-      flash[:notice] = t(:welcome)
-      sign_in_and_redirect(:user, user)
-    else
-      flash[:alert] = t(:fail)
-      redirect_to new_user_registration_url
-    end
-  end
- 
-  def destroy
-    @authentication = current_user.authentications.find(params[:id])
-    @authentication.destroy
-    flash[:notice] = t(:successfully_destroyed_authentication)
+  @authentications = current_user.authentications if current_user
+end
+def create
+  omniauth = request.env["omniauth.auth"] 
+  authentication = Authentication.where(:provider => omniauth['provider'], :uid => omniauth['uid']).first
+  if authentication 
+    flash[:notice] = t(:signed_in)
+    sign_in_and_redirect(:user, authentication.user)
+  elsif current_user
+    current_user.authentications.create!(:provider => omniauth['provider'], :uid => omniauth['uid'])
+    flash[:notice] = t(:success)
     redirect_to authentications_url
+  elsif user = create_new_omniauth_user(omniauth)
+    user.authentications.create!(:provider => omniauth['provider'], :uid => omniauth['uid'])
+    flash[:notice] = t(:welcome)
+    sign_in_and_redirect(:user, user)
+  else
+    flash[:alert] = t(:fail)
+    redirect_to new_user_registration_url   
   end
- 
-  def create_new_omniauth_user(omniauth)
-    user = User.new
-    user.apply_omniauth(omniauth)
-    if user.save
-      user
-    else
-      nil
-    end
+end
+def destroy
+  @authentication = current_user.authentications.find(params[:id])
+  @authentication.destroy
+  flash[:notice] = t(:successfully_destroyed_authentication)
+  redirect_to authentications_url
+end
+def create_new_omniauth_user(omniauth)
+  user = User.new
+  user.apply_omniauth(omniauth)
+  if user.save
+    user
+  else
+    nil
   end
+end
 </code></pre>
 
 *app/models/user.rb*
@@ -123,12 +122,10 @@ The last modifications are oriented to generate random passwords.
   validates_uniqueness_of :name, :email, :case_sensitive => false   
   attr_accessible :name, :email, :password, :password_confirmation, :remember_me
   references_many :authentications, :dependent => :delete
- 
   def apply_omniauth(omniauth)
     self.email = omniauth['user_info']['email'] if email.blank?
     apply_trusted_services(omniauth) if self.new_record?
   end
- 
   def apply_trusted_services(omniauth) 
     user_info = omniauth['user_info']
     if omniauth['extra'] && omniauth['extra']['user_hash']
@@ -150,21 +147,17 @@ The last modifications are oriented to generate random passwords.
 
 *lib/string_extensions.rb*
 <pre><code class="ruby">module StringExtensions
-
   def self.included(base) 
     String.extend StringExtensions::ClassMethods
   end
-
   module ClassMethods
     RAND_CHARS = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789"
-   
     def RandomString(len)
       rand_max = RAND_CHARS.size
       ret = ""
       len.times{ ret << RAND_CHARS[rand(rand_max)] }
       ret
     end
-   
   end
 end
 </code></pre>
@@ -207,8 +200,9 @@ h3. 1.- Change devise password length
 h3. 2.- Omniauth with OpenID, Google, Yahoo
 
 *Gemfile*
-<pre><code class="ruby">gem 'oa-openid'   > bundle install
-</code></pre>
+<pre><code class="ruby">gem 'oa-openid'</code></pre>
+@$ bundle install@
+
 *config/initializers/omniauth.rb*
 <pre><code class="ruby">require 'openid/store/filesystem'
 Rails.application.config.middleware.use OmniAuth::Builder do
@@ -230,44 +224,44 @@ h3. 4.- Authentication with Twitter + email confirmation
 4.2.- Manage the authentication if email is not provided.
 *app/controllers/authentications_controller.rb*
 <pre><code class="ruby">elsif  omniauth['provider'] != 'twitter' && omniauth['provider'] != 'linked_in' && user = create_new_omniauth_user(omniauth)   
-      user.authentications.create!(:provider => omniauth['provider'], :uid => omniauth['uid'])
-      flash[:notice] = t(:welcome)
-      sign_in_and_redirect(:user, user)
- elsif (omniauth['provider'] == 'twitter' || omniauth['provider'] == 'linked_in') &&
-      omniauth['uid'] && (omniauth['user_info']['name'] || omniauth['user_info']['nickname'] ||
-      (omniauth['user_info']['first_name'] && omniauth['user_info']['last_name']))
-      session[:omniauth] = omniauth.except('extra');
-      redirect_to(:controller => 'registrations', :action => 'email')
+  user.authentications.create!(:provider => omniauth['provider'], :uid => omniauth['uid'])
+  flash[:notice] = t(:welcome)
+  sign_in_and_redirect(:user, user)
+elsif (omniauth['provider'] == 'twitter' || omniauth['provider'] == 'linked_in') &&
+  omniauth['uid'] && (omniauth['user_info']['name'] || omniauth['user_info']['nickname'] ||
+  (omniauth['user_info']['first_name'] && omniauth['user_info']['last_name']))
+  session[:omniauth] = omniauth.except('extra');
+  redirect_to(:controller => 'registrations', :action => 'email')
 else
-      flash[:alert] = t(:fail)
-      redirect_to new_user_registration_url
-    end
+  flash[:alert] = t(:fail)
+  redirect_to new_user_registration_url
+end
 </code></pre>
 
 4.3.- Create the controller logic.
 
 *app/controllers/registrations_controller*
 <pre><code class="ruby">def email
-    if session[:omniauth]
-      if params[:email]
-        user = User.new
-        user.email = params[:email]
-        user.apply_omniauth(session[:omniauth], false)
-        if user.save
-          user.authentications.create!(:provider => session[:omniauth]['provider'], :uid => session[:omniauth]['uid'])
-          session[:omniauth] = nil
-          flash[:notice] = t(:welcome)
-          sign_in_and_redirect(:user, user)
-        else
-          flash[:alert] = user.errors.to_a[0]
-          redirect_to new_user_registration_url
-        end
+  if session[:omniauth]
+    if params[:email]
+      user = User.new
+      user.email = params[:email]
+      user.apply_omniauth(session[:omniauth], false)
+      if user.save
+        user.authentications.create!(:provider => session[:omniauth]['provider'], :uid => session[:omniauth]['uid'])
+        session[:omniauth] = nil
+        flash[:notice] = t(:welcome)
+        sign_in_and_redirect(:user, user)
+      else
+        flash[:alert] = user.errors.to_a[0]
+        redirect_to new_user_registration_url
       end
-    else
-      flash[:alert] = t(:fail)
-      redirect_to new_user_registration_url
     end
+  else
+    flash[:alert] = t(:fail)
+    redirect_to new_user_registration_url
   end
+end
 </code></pre>
 
 4.4.- Create the views and routes
@@ -311,7 +305,7 @@ If you add functionality to this application, create an alternative implementati
 
 h2. Credits
 
-Daniel Kehoe ("http://fernandotapiarico.com/":http://fernandotapiarico.com/)
+Fernando Tapia Rico ("http://fernandotapiarico.com/":http://fernandotapiarico.com/)
 
 Any issues? Please create an "Issue":https://github.com/fertapric/rails3-mongoid-devise-omniauth/issues on GitHub.
 

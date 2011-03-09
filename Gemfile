@@ -1,0 +1,11 @@
+require "mongo"
+source "http://gemcutter.org"
+gem "mongoid", "2.0.0.rc.7"
+gem "bson_ext", "1.2.3"
+gem "rails", :git => "http://github.com/rails/rails.git"
+gem "devise", :git => "git://github.com/plataformatec/devise.git"
+gem "rack", :git => "git://github.com/rack/rack.git"
+gem "omniauth"
+
+gem "nifty-generators"
+gem "oa-openid"

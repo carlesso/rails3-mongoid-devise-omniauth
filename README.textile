@@ -9,7 +9,7 @@ OmniAuth: http://railscasts.com/episodes/235-omniauth-part-1
 
 h2. "Building It" Tutorial 
 
-Thanks to Daniel Kehoe aka "fortuity":https://github.com/fortuity)
+Thanks to Daniel Kehoe aka "fortuity":https://github.com/fortuity
 
 A complete walkthrough tutorial is available on the GitHub wiki:
 
@@ -306,6 +306,8 @@ If you add functionality to this application, create an alternative implementati
 h2. Credits
 
 Fernando Tapia Rico ("http://fernandotapiarico.com/":http://fernandotapiarico.com/)
+
+Daniel Kehoe : "rails3-mongoid-devise":https://github.com/fortuity/rails3-mongoid-devise
 
 Any issues? Please create an "Issue":https://github.com/fertapric/rails3-mongoid-devise-omniauth/issues on GitHub.
 

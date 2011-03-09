@@ -20,12 +20,12 @@ If you simply wish to modify the application for your own project, you can downl
 h2. Omniauth installation
 
 1.- Modyfy *Gemfile*
-<pre><code class="ruby">gem 'omniauth'</code></pre>
+<pre>gem 'omniauth'</pre>
 
-2.- <pre><code class="ruby">bundle install</code></pre>
+2.- <pre>bundle install</pre>
 
 3.- Create file *initializers/omniauth.rb*
-<pre><code class="ruby">
+<pre>
 Rails.application.config.middleware.use OmniAuth::Builder do
   #provider :twitter, 'CONSUMER_KEY', 'CONSUMER_SECRET'
   provider :facebook, 'CONSUMER_KEY', 'CONSUMER_SECRET'
@@ -33,32 +33,32 @@ Rails.application.config.middleware.use OmniAuth::Builder do
   .
   .
 end
-</code></pre>
+</pre>
 
 4.- Create the "provider" (Facebook/Twitter/LinkedIn, see "Omniauth":https://github.com/intridea/omniauth) app and modify the file *initializers/omniauth.rb* with the 'CONSUMER_KEY' and 'CONSUMER_SECRET' parameters.
 
 5.- At this point, authentication data can be managed on your own.
 
 6.- Generate authentication scaffold
-<pre><code class="ruby">rails g scaffold authentication user_id:integer provider:string uid:string</code></pre>
+<pre>rails g scaffold authentication user_id:integer provider:string uid:string</pre>
 
 7.- Associate users and authentications
-<pre><code class="ruby">
+<pre>
 user.rb > references_many :authentications, :dependent => :delete
-</code></pre>
-<pre><code class="ruby">
+</pre>
+<pre>
 authentication.rb > referenced_in :user
-</code></pre>
+</pre>
 
 8.- Modify *routes.rb* to redirect the authentication callback
-<pre><code class="ruby">match '/auth/:provider/callback' => 'authentications#create'</code></pre>
+<pre>match '/auth/:provider/callback' => 'authentications#create'</pre>
 
 9.- Modify *authentications_controller.rb* with the callback:
-<pre><code class="ruby">
+<pre>
 def create  auth = request.env["omniauth.auth"]
   render :text => auth.to_xml
 end
-</code></pre>
+</pre>
 
 As you can see, the Omniauth response is being printed to see how Omniauth works.
 
@@ -77,7 +77,7 @@ Follow the rules:
 The last modifications are oriented to generate random passwords.
 
 *app/controllers/authentications_controller*
-<pre><code class="ruby">
+<pre>
   def index    @authentications = current_user.authentications if current_user
   end
  
@@ -127,10 +127,10 @@ The last modifications are oriented to generate random passwords.
       nil
     end
   end
-</code></pre>
+</pre>
 
 *app/models/user.rb*
-<pre><code class="ruby">
+<pre>
   devise :database_authenticatable, :registerable, :recoverable, :confirmable, :rememberable, :trackable, :validatable  field :name
   validates_presence_of :name
   validates_uniqueness_of :name, :email, :case_sensitive => false   
@@ -169,10 +169,10 @@ The last modifications are oriented to generate random passwords.
     self.password, self.password_confirmation = String::RandomString(16)  
     self.confirmed_at, self.confirmation_sent_at = Time.now 
   end
-</code></pre>
+</pre>
 
 *lib/string_extensions.rb*
-<pre><code class="ruby">
+<pre>
 module StringExtensions
 
   #Extend the class String with this module's class methods
@@ -197,34 +197,34 @@ module StringExtensions
    
   end
 end
-</code></pre>
+</pre>
 
 *config/initializers/application.rb*
-<pre><code class="ruby">
+<pre>
 require 'string_extensions'include StringExtensions
-</code></pre>
+</pre>
 
 
 
 *config/locales/en.yml*
-<pre><code class="ruby">
+<pre>
 en:  hello: "Hello world"
   fail: 'Auhtentication FAIL!!'
   success: 'Authentication SUCCESS!!!'
   signed_in: 'Estamos dentro'
   welcome: 'Bienvenido'
-</code></pre>
+</pre>
 
 10.- Add some links
 *app/views/devise/shared/_links.rb*
-<pre><code class="html">
+<pre>
 <h1>Omniauth</h1>
 <a href="/auth/twitter">Twitter</a>
 <a href="/auth/facebook">Facebook</a>
 <a href="/auth/linked_in">LinkedIn</a>
 <a href="/auth/google">Google</a>
 <a href="/auth/yahoo">Yahoo</a>
-</code></pre>
+</pre>
 
 11.- Add more services
 
@@ -236,25 +236,25 @@ h2. Tips
 h3. 1.- Change devise password length
 
 *config/initializers/devise.rb*
-<pre><code class="ruby">
+<pre>
 config.password_length = 8..20
-</code></pre>
+</pre>
 
 h3. 2.- Omniauth with OpenID, Google, Yahoo
 
 *Gemfile*
-<pre><code class="ruby">
+<pre>
 gem 'oa-openid'   > bundle install
-</code></pre>
+</pre>
 *config/initializers/omniauth.rb*
-<pre><code class="ruby">
+<pre>
 require 'openid/store/filesystem'
 Rails.application.config.middleware.use OmniAuth::Builder do
   provider :openid, OpenID::Store::Filesystem.new('/tmp')
   use OmniAuth::Strategies::OpenID, OpenID::Store::Filesystem.new('/tmp'), :name => 'yahoo', :identifier => 'yahoo.com'
   use OmniAuth::Strategies::OpenID, OpenID::Store::Filesystem.new('/tmp'), :name => 'google', :identifier => 'https://www.google.com/accounts/o8/id'
 end
-</code></pre>
+</pre>
 
 h3. 3.- URL field on Twitter App registration
 
@@ -263,11 +263,11 @@ Twitter doesn't accept "localhost", but *http://127.0.0.1:3000* works
 h3. 4.- Authentication with Twitter + email confirmation
 
 4.1.- Create a new controller to handle the email retrieval
-<pre><code class="ruby">rails g controller registrations</code></pre>
+<pre>rails g controller registrations</pre>
 
 4.2.- Manage the authentication if email is not provided.
 *app/controllers/authentications_controller.rb*
-<pre><code class="ruby">
+<pre>
 elsif  omniauth['provider'] != 'twitter' && omniauth['provider'] != 'linked_in' && user = create_new_omniauth_user(omniauth)   
       user.authentications.create!(:provider => omniauth['provider'], :uid => omniauth['uid'])
       #Create a new User through omniauth
@@ -283,12 +283,12 @@ else      #New user data not valid, try again
       flash[:alert] = t(:fail)
       redirect_to new_user_registration_url
     end
-</code></pre>
+</pre>
 
 4.3.- Create the controller logic.
 
 *app/controllers/registrations_controller*
-<pre><code class="ruby">
+<pre>
 def email
     if session[:omniauth]
       if params[:email]
@@ -312,44 +312,44 @@ def email
       redirect_to new_user_registration_url
     end
   end
-</code></pre>
+</pre>
 
 4.4.- Create the views and routes
 *app/views/registrations/email.html.erb*
-<pre><code class="html">
+<pre>
 <h2>Email????</h2><%= form_tag(:controller => "registrations", :action => "email") do %>
   <p><%= label_tag(:email, 'Email') %><br />
   <%= email_field_tag(:email) %></p>
   <p><%= submit_tag("Ok") %></p>
 <% end %>
-</code></pre>
+</pre>
 *config/routes.rb*
-<pre><code class="ruby">
+<pre>
 match '/registrations' => 'registrations#email'
-</code></pre>
+</pre>
 
 
 
 
 4.5.- Create a flag to indicate email confirmation
 *app/models/user.rb*
-<pre><code class="ruby">
+<pre>
 def apply_omniauth(omniauth) => def apply_omniauth(omniauth, confirmation)
-</code></pre>
-<pre><code class="ruby">
+</pre>
+<pre>
 def apply_trusted_services(omniauth)  => def apply_trusted_services(omniauth, confirmation)  
-</code></pre>
-<pre><code class="ruby">
+</pre>
+<pre>
  self.confirmed_at, self.confirmation_sent_at = Time.now  =>
 if (confirmation)      
   self.confirmed_at, self.confirmation_sent_at = Time.now 
 end 
-</code></pre>
+</pre>
 
 *app/controllers/authentications_controller.rb*
-<pre><code class="ruby">
+<pre>
 user.apply_omniauth(omniauth) => user.apply_omniauth(omniauth, true)
-</code></pre>
+</pre>
 
 
 h2. Contributing

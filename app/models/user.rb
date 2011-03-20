@@ -7,7 +7,6 @@ class User
   attr_accessible :name, :email, :password, :password_confirmation, :remember_me
   references_many :authentications, :dependent => :delete
   
-  
   # ===================================== #
   # ===================================== #
   # ==========  USER METHODS  =========== #
@@ -41,5 +40,19 @@ class User
     if (confirmation) 
       self.confirmed_at, self.confirmation_sent_at = Time.now  
     end 
+  end
+  
+  
+  # ===================================== #
+  # ===================================== #
+  # ========  OVERWRITE METHODS  ======== #
+  # ===================================== #
+  # ===================================== #
+  def update_with_password(params={}) 
+    if params[:password].blank? 
+      params.delete(:password) 
+      params.delete(:password_confirmation) if params[:password_confirmation].blank? 
+    end 
+    update_attributes(params) 
   end
 end

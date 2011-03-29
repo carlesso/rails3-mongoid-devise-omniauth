@@ -19,10 +19,8 @@ module Rails3MongoidDeviseOmniauth
 
     # Custom directories with classes and modules you want to be autoloadable.
     # config.autoload_paths += %W(#{config.root}/extras)
-    p config.root
     config.autoload_paths += %W(#{config.root}/lib)
-    #config.autoload_paths += Dir["#{config.root}/lib/**/"]
-    p config.autoload_paths
+    config.autoload_paths += Dir["#{config.root}/lib/**/"]
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.
     # config.plugins = [ :exception_notification, :ssl_requirement, :all ]

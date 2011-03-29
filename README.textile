@@ -2,10 +2,10 @@ h1. RoR 3 + MongoDB (mongoid) + Devise + Omniauth
 
 h2. References
 
-Rails3-mongoid-devise: https://github.com/fortuity/rails3-mongoid-devise
-Mongoid installation: http://mongoid.org/docs/installation/
-Devise: https://github.com/fortuity/rails3-mongoid-devise/wiki/Tutorial-(Walkthrough)
-OmniAuth: http://railscasts.com/episodes/235-omniauth-part-1
+Rails3-mongoid-devise: "https://github.com/fortuity/rails3-mongoid-devise":https://github.com/fortuity/rails3-mongoid-devise
+Mongoid installation: "http://mongoid.org/docs/installation/":http://mongoid.org/docs/installation/
+Devise: "https://github.com/fortuity/rails3-mongoid-devise/wiki/Tutorial-(Walkthrough)":https://github.com/fortuity/rails3-mongoid-devise/wiki/Tutorial-(Walkthrough)
+OmniAuth: "http://railscasts.com/episodes/235-omniauth-part-1":http://railscasts.com/episodes/235-omniauth-part-1
 
 h2. "Building It" Tutorial 
 
@@ -25,11 +25,11 @@ If you simply wish to modify the application for your own project, you can downl
 h2. Tips & How To's
 
 This Wiki has also additional information (How To's & Tips) to customize your own rails application.
-* [[How To: Change Devise password lenght | https://github.com/fertapric/rails3-mongoid-devise-omniauth/wiki/How-To:-Change-Devise-password-lenght]]
-* [[How To: Use Omniauth with OpenID, Google, Yahoo... | https://github.com/fertapric/rails3-mongoid-devise-omniauth/wiki/How-To:-Use-Omniauth-with-OpenID,-Google,-Yahoo...]]
-* [[Tip: Twitter App registration (URL field) | https://github.com/fertapric/rails3-mongoid-devise-omniauth/wiki/Tip:-Twitter-App-registration-(URL-field)]]
-* [[How To: Retrieve email information (middle step) from providers like Twitter or LinkedIn | https://github.com/fertapric/rails3-mongoid-devise-omniauth/wiki/How-To:-Retrieve-email-information-(middle-step)-from-providers-like-Twitter-or-LinkedIn]]
-* [[How To: Allow users to edit their account without providing a password | https://github.com/fertapric/rails3-mongoid-devise-omniauth/wiki/How-To:-Allow-users-to-edit-their-account-without-providing-a-password]]
+* "How To: Change Devise password lenght":https://github.com/fertapric/rails3-mongoid-devise-omniauth/wiki/How-To:-Change-Devise-password-lenght
+* "How To: Use Omniauth with OpenID, Google, Yahoo...":https://github.com/fertapric/rails3-mongoid-devise-omniauth/wiki/How-To:-Use-Omniauth-with-OpenID,-Google,-Yahoo...
+* "Tip: Twitter App registration (URL field)":https://github.com/fertapric/rails3-mongoid-devise-omniauth/wiki/Tip:-Twitter-App-registration-(URL-field)
+* "How To: Retrieve email information (middle step) from providers like Twitter or LinkedIn":https://github.com/fertapric/rails3-mongoid-devise-omniauth/wiki/How-To:-Retrieve-email-information-(middle-step)-from-providers-like-Twitter-or-LinkedIn
+* "How To: Allow users to edit their account without providing a password":https://github.com/fertapric/rails3-mongoid-devise-omniauth/wiki/How-To:-Allow-users-to-edit-their-account-without-providing-a-password
 
 
 h2. Contributing

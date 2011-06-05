@@ -30,6 +30,7 @@ This Wiki has also additional information (How To's & Tips) to customize your ow
 * "Tip: Twitter App registration (URL field)":https://github.com/fertapric/rails3-mongoid-devise-omniauth/wiki/Tip:-Twitter-App-registration-(URL-field)
 * "How To: Retrieve email information (middle step) from providers like Twitter or LinkedIn":https://github.com/fertapric/rails3-mongoid-devise-omniauth/wiki/How-To:-Retrieve-email-information-(middle-step)-from-providers-like-Twitter-or-LinkedIn
 * "How To: Allow users to edit their account without providing a password":https://github.com/fertapric/rails3-mongoid-devise-omniauth/wiki/How-To:-Allow-users-to-edit-their-account-without-providing-a-password
+* "How To: Integration without :confirmable (Devise)":https://github.com/fertapric/rails3-mongoid-devise-omniauth/wiki/Integration-without-:confirmable-(Devise)
 
 
 h2. Contributing
